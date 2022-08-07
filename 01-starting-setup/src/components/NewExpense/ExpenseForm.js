@@ -18,11 +18,12 @@ export const ExpenseForm = (props) => {
         event.preventDefault();
         const parsedInput = {
             title: formData.enteredTitle,
-            amount: formData.enteredAmount,
+            amount: +formData.enteredAmount,
             date: new Date(formData.enteredDate),
         }
         setFormData({enteredTitle: '', enteredAmount: 0, enteredDate: ''});
         props.onSaveExpenseData(parsedInput);
+        props.onCancel();
     }
 
     return (<form onSubmit={submitHandler}>
@@ -44,6 +45,7 @@ export const ExpenseForm = (props) => {
         </div>
         <div className="new-expense__actions">
             <button type="submit">add expense</button>
+            <button type="button" onClick={props.onCancel}>cancel</button>
         </div>
     </form>)
 };

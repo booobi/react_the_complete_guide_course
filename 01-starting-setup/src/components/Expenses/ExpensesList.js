@@ -7,7 +7,7 @@ const ExpensesList = (props) => {
     }
 
     return <ul className="expenses-list">
-        {props.expenses.map(exp => (<li><ExpenseItem key={exp.id} date={exp.date} title={exp.title} amount={exp.amount} /></li>))}
+        {props.expenses.map(exp => (<li key={exp.id}><ExpenseItem date={exp.date} title={exp.title} amount={exp.amount} /></li>))}
     </ul>;
 }
 
