@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer, useContext } from 'react';
+import React, { useEffect, useState, useReducer, useContext, useRef } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -53,6 +53,8 @@ const passwordReducer = (state, action) => {
 }
 const Login = (props) => {
   const ctx = useContext(AuthContext);
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
 
   const [formIsValid, setFormIsValid] = useState(false);
 
@@ -96,7 +98,14 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    ctx.onLogin(emailState.value, passwordState.value);
+    if (formIsValid) {
+      ctx.onLogin(emailState.value, passwordState.value);
+    } else if (!emailState.isValid){
+        emailInputRef.current.focus();
+    } else {
+
+      passwordInputRef.current.focus();
+    }
   };
 
   return (
@@ -104,6 +113,7 @@ const Login = (props) => {
       
       <form onSubmit={submitHandler}>
         <Input
+            ref={emailInputRef}
             id="email" 
             label="Email"
             type="email"
@@ -113,6 +123,7 @@ const Login = (props) => {
             onBlur={validateEmailHandler}>
           </Input>
         <Input
+            ref={passwordInputRef}
             id="password" 
             label="Password"
             type="password"
@@ -122,7 +133,7 @@ const Login = (props) => {
             onBlur={validatePasswordHandler}>
         </Input>
         <div className={classes.actions}>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          <Button type="submit" className={classes.btn}>
             Login
           </Button>
         </div>
